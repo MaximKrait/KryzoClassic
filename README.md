@@ -1,4 +1,4 @@
-![Logo](UI/SquarixLogo.png)
+![Logo](UI/)
 
 A small C++ game where you have to dodge squares. 
 
