@@ -1,10 +1,10 @@
 ![Logo](UI/logo.png)
 
-A small C++ game where you have to dodge squares. 
+A small C++ game where you have to dodge triangles. 
 
 ## Downloading
 
-Download the archive with the latest version from [here](https://github.com/MaximKrait/Squarix/releases)
+Download the archive with the latest version from [here](https://github.com/MaximKrait/KryzoClassic/releases)
  and run the executable in it. Important, the font file must be in the same folder as the game!!!
 
 At the moment only the Linux version has been compiled!
