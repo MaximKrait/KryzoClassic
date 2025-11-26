@@ -1,4 +1,4 @@
-![Logo](UI/)
+![Logo](UI/Logo.png)
 
 A small C++ game where you have to dodge squares. 
 
