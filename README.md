@@ -7,7 +7,6 @@ A small C++ game where you have to dodge triangles.
 Download the archive with the latest version from [here](https://github.com/MaximKrait/KryzoClassic/releases)
  and run the executable in it. Important, the font file must be in the same folder as the game!!!
 
-At the moment only the Linux version has been compiled!
 
 ## Building
 
@@ -35,24 +34,24 @@ If you want to compile the game yourself from the source files, then proceed acc
  ```
 1.1. File retrieval
 
-You can get the source code directly from [here](https://github.com/MaximKrait/Squarix/releases)
+You can get the source code directly from [here](https://github.com/MaximKrait/KryzoClassic/releases)
 
 Or you can do the following:
 
  ```bash
- git clone https://github.com/MaximKrait/Squarix.git
-cd Squarix
+ git clone https://github.com/MaximKrait/KryzoClassic.git
+cd KryzoCLassic
  ```
 
 2. Compile the code
 
  ```bash
- g++ -o Squarix main.cpp -lSDL2 -lSDL2_ttf
+g++ main.cpp pascal.cpp enemy.cpp graphic.cpp anim.cpp utils.cpp -o Kryzo_Classic -lSDL2 -lSDL2_ttf -lSDL2_gfx
  ```
 
 3. Start game
  ```bash
- ./Squarix
+ ./Kryzo_Classic
  ```
 or click on the executable file
 
@@ -64,7 +63,7 @@ or click on the executable file
 
 3. Compile the code 
  ```bash
- g++ -o Squarix.exe main.cpp -I"path_to_sdl_include" -L"path_to_sdl_lib" -lSDL2 -lSDL2_ttf
+ g++ -o KryzoClassic.exe main.cpp -I"path_to_sdl_include" -L"path_to_sdl_lib" -lSDL2 -lSDL2_ttf
  ```
 4. Start game
 
