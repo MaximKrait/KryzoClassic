@@ -1,4 +1,4 @@
-![Logo](UI/logoBig1.png)
+![Logo](ForREADME/logoBig1.png)
 
 A small C++ game where you have to dodge triangles. 
 
