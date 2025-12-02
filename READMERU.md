@@ -30,7 +30,7 @@
 ### Windows
 
 1. Загрузите последнюю версию zip-архива [отсюда](https://github.com/MaximKrait/KryzoClassic/releases)
-2. Запустите игру, запустив Kryzo_Classic.exe.
+2. Запустите игру через Kryzo_Classic.exe.
 
 ## Сборка из исходного кода
 
