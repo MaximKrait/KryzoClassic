@@ -2,6 +2,8 @@
 
 A small C++ game where you have to dodge triangles. 
 
+[README in russian | README на русском](https://github.com/MaximKrait/KryzoClassic/blob/main/READMERU.md)
+
 ## Downloading
 
 ### Linux
