@@ -53,6 +53,7 @@ cd KryzoClassic
 1.1. Installing dependencies.
 
  ```bash
+chmod +x install-deps.sh 
 ./install-deps.sh 
  ```
 
