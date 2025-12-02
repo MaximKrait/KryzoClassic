@@ -2,7 +2,7 @@
 
 Небольшая игра на C++, в которой нужно уворачиваться от треугольников. 
 
-## Загрузка
+## Установка
 
 ### Linux
 1. Загрузите последнюю версию tar.gz или AppImage [отсюда](https://github.com/MaximKrait/KryzoClassic/releases)
