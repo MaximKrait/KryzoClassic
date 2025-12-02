@@ -51,6 +51,7 @@ cd KryzoClassic
 1.1. Установите зависимости
 
  ```bash
+chmod +x install-deps.sh
 ./install-deps.sh 
  ```
 
