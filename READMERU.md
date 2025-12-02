@@ -46,7 +46,7 @@
 
 ```bash
 git clone https://github.com/MaximKrait/KryzoClassic.git
-cd KryzoCLassic
+cd KryzoClassic
 ```
 1.1. Установите зависимости
 
