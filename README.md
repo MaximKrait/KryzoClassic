@@ -71,6 +71,23 @@ or click on the executable file
 
 ### Windows
 
-This section has not been written yet.
+1. Download MSYS2 and open MINGW64, then install the necessary tools
+```bash
+pacman -S --needed git mingw-w64-x86_64-gcc mingw-w64-x86_64-make
+```
+2. Download the game source code
+```bash
+git clone https://github.com/MaximKrait/KryzoClassic.git
+cd KryzoClassic
+```
+3. Install the necessary dependencies
+```bash
+./install-deps-win.bat
+```
+4. Compile the game
+```bash
+mingw32-make install
+```
+Makefile will install the game in the Games folder, specifically in C:\Users\username\Games\Kryzo_Classic
 
-
+5. Run the game via Kryzo_Classic.exe
