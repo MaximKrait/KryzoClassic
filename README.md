@@ -4,9 +4,33 @@ A small C++ game where you have to dodge triangles.
 
 ## Downloading
 
-Download the archive with the latest version from [here](https://github.com/MaximKrait/KryzoClassic/releases)
- and run the executable in it. Important, the font file must be in the same folder as the game!!!
+### Linux
+1. Download the latest tar.gz or AppImage [from here](https://github.com/MaximKrait/KryzoClassic/releases)
 
+If you downloaded tar.gz, please install the dependencies:
+
+- Fedora
+  
+ ```bash
+ sudo dnf install g++ SDL2-devel SDL2_ttf-devel SDL2_gfx-devel
+ ```
+- Ubuntu/Debian
+
+ ```bash
+ sudo apt install g++ libsdl2-dev libsdl2-ttf-dev libsdl2-gfx-dev
+ ```
+
+- Arch Linux
+
+ ```bash
+ sudo pacman -S base-devel sdl2 sdl2_ttf sdl2_gfx
+ ```
+2. Play by launching either Kryzo_Classic or Kryzo_Classic-x86_64.AppImage.
+
+### Windows
+
+1. Download the latest zip archive [from here](https://github.com/MaximKrait/KryzoClassic/releases)
+2. Play by launching Kryzo_Classic.exe
 
 ## Building
 
@@ -14,25 +38,7 @@ If you want to compile the game yourself from the source files, then proceed acc
 
 ### Linux
 
-1. Establish dependencies
-
-- Fedora
-  
- ```bash
- sudo dnf install g++ SDL2-devel SDL2_ttf-devel  
- ```
-- Ubuntu/Debian
-
- ```bash
- sudo apt install g++ libsdl2-dev libsdl2-ttf-dev  
- ```
-
-- Arch Linux
-
- ```bash
- sudo pacman -S base-devel sdl2 sdl2_ttf  
- ```
-1.1. File retrieval
+1. File retrieval
 
 You can get the source code directly from [here](https://github.com/MaximKrait/KryzoClassic/releases)
 
@@ -42,12 +48,20 @@ Or you can do the following:
  git clone https://github.com/MaximKrait/KryzoClassic.git
 cd KryzoCLassic
  ```
+1.1. Installing dependencies.
+
+ ```bash
+./install-deps.sh 
+ ```
 
 2. Compile the code
 
  ```bash
-g++ main.cpp pascal.cpp enemy.cpp graphic.cpp anim.cpp utils.cpp -o Kryzo_Classic -lSDL2 -lSDL2_ttf -lSDL2_gfx
+make install
  ```
+The Makefile will install the game in the user's home directory, specifically at the following path: /home/HOME_DIR/Documents/Kryzo_Classic
+
+HOME_DIR refers to the user's name.
 
 3. Start game
  ```bash
@@ -57,15 +71,6 @@ or click on the executable file
 
 ### Windows
 
-1. Install MinGW-w64 (if there is no compiler)
-
-2. Install SDL2 and SDL2_ttf
-
-3. Compile the code 
- ```bash
- g++ -o KryzoClassic.exe main.cpp -I"path_to_sdl_include" -L"path_to_sdl_lib" -lSDL2 -lSDL2_ttf
- ```
-4. Start game
-
+This section has not been written yet.
 
 
