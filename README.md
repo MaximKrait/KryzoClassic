@@ -4,7 +4,7 @@ A small C++ game where you have to dodge triangles.
 
 [README in russian | README на русском](https://github.com/MaximKrait/KryzoClassic/blob/main/READMERU.md)
 
-## Downloading
+## Installation
 
 ### Linux
 1. Download the latest tar.gz or AppImage [from here](https://github.com/MaximKrait/KryzoClassic/releases)
