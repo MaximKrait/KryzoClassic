@@ -28,7 +28,7 @@ bool getHPDrawColor(int hp, Uint32 hpCriticalStart, Uint32 currentTime, SDL_Colo
         outColor = {255, 0, 0, 255};
         return false;
     } 
-    else { hp <= 10
+    else { // hp <= 10
         Uint32 t = currentTime - hpCriticalStart;
         if (((t / HP_BLINK_DURATION) % 2) == 0)
             outColor = {255, 0, 0, 255};
