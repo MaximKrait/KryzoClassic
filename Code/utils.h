@@ -4,8 +4,8 @@
 #include <ctime>
 #include <iostream>
 
-inline constexpr int WINDOW_WIDTH = 800;
-inline constexpr int WINDOW_HEIGHT = 600;
+inline constexpr int WINDOW_WIDTH = 1024;
+inline constexpr int WINDOW_HEIGHT = 576;
 inline constexpr int PLAYER_SIZE = 20;
 inline constexpr int PLAYER_SPEED = 5;
 inline constexpr Uint32 FRAME_DELAY = 16;
