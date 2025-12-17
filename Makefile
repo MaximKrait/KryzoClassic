@@ -36,7 +36,7 @@ else
 endif
 
 # ==== Project ====
-SRC = Code/main.cpp Code/pascal.cpp Code/enemy.cpp Code/graphic.cpp Code/anim.cpp Code/utils.cpp
+SRC = Code/main.cpp Code/pascal.cpp Code/enemy.cpp Code/graphic.cpp Code/anim.cpp Code/utils.cpp Code/display.cpp
 OBJ = $(SRC:.cpp=.o)
 TARGET = Kryzo_Classic
 RELEASE_DIR := $(DOCS_DIR)/Kryzo_Classic
