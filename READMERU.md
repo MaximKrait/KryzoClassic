@@ -36,7 +36,7 @@
 
 Если вы хотите скомпилировать игру самостоятельно из исходных файлов, следуйте этим инструкциям:
 
-### Linux
+### Linux(стандартная сборка)
 
 1. Получение файлов
 
@@ -48,14 +48,14 @@
 git clone https://github.com/MaximKrait/KryzoClassic.git
 cd KryzoClassic
 ```
-1.1. Установите зависимости
+1.1. Установите зависимости.
 
  ```bash
 chmod +x install-deps.sh
 ./install-deps.sh 
  ```
 
-2. Скомпилируйте код
+2. Скомпилируйте код.
 
  ```bash
 make install
@@ -70,22 +70,50 @@ HOME_DIR означает имя пользователя.
  ```
 или щелкните по исполняемому файлу
 
-### Windows
+### Linux (сборка AppImage)
 
-1. Загрузите MSYS2 и откройте MINGW64, затем установите необходимые инструменты
-```bash
-pacman -S --needed git mingw-w64-x86_64-gcc mingw-w64-x86_64-make
-```
-2. Загрузите исходный код игры
+1. Получение файлов
+
+Вы можете получить исходный код непосредственно [здесь](https://github.com/MaximKrait/KryzoClassic/releases).
+
+Или вы можете сделать следующее:
+
 ```bash
 git clone https://github.com/MaximKrait/KryzoClassic.git
 cd KryzoClassic
 ```
-3. Установите необходимые зависимости
+1.1. Установка зависимостей.
+```bash
+chmod +x install-deps.sh 
+./install-deps.sh 
+```
+2. Cоберите файл AppImage.
+```bash
+chmod +x AppImage/build_appimage.sh
+./AppImage/build_appimage.sh
+```
+3. Запустите игру
+```bash
+ ./Kryzo_Classic-x86_64.AppImage
+```
+или щелкните по исполняемому файлу.
+
+### Windows
+
+1. Загрузите MSYS2 и откройте MINGW64, затем установите необходимые инструменты.
+```bash
+pacman -S --needed git mingw-w64-x86_64-gcc mingw-w64-x86_64-make
+```
+2. Загрузите исходный код игры.
+```bash
+git clone https://github.com/MaximKrait/KryzoClassic.git
+cd KryzoClassic
+```
+3. Установите необходимые зависимости.
 ```bash
 ./install-deps-win.bat
 ```
-4. Скомпилируйте игру
+4. Скомпилируйте игру.
 ```bash
 mingw32-make install
 ```
