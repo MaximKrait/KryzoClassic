@@ -84,14 +84,12 @@ Or you can do the following:
 cd KryzoClassic
  ```
 1.1. Installing dependencies.
-
  ```bash
 chmod +x install-deps.sh 
 ./install-deps.sh 
  ```
 
-2. Compile the code
-
+2. Build the AppImage file.
  ```bash
 chmod +x AppImage/build_appimage.sh
 ./AppImage/build_appimage.sh
@@ -100,24 +98,24 @@ chmod +x AppImage/build_appimage.sh
  ```bash
  ./Kryzo_Classic-x86_64.AppImage
  ```
-or click on the executable file
+or click on the executable file.
 
 ### Windows
 
-1. Download MSYS2 and open MINGW64, then install the necessary tools
+1. Download MSYS2 and open MINGW64, then install the necessary tools.
 ```bash
 pacman -S --needed git mingw-w64-x86_64-gcc mingw-w64-x86_64-make
 ```
-2. Download the game source code
+2. Download the game source code.
 ```bash
 git clone https://github.com/MaximKrait/KryzoClassic.git
 cd KryzoClassic
 ```
-3. Install the necessary dependencies
+3. Install the necessary dependencies.
 ```bash
 ./install-deps-win.bat
 ```
-4. Compile the game
+4. Compile the game.
 ```bash
 mingw32-make install
 ```
