@@ -61,8 +61,8 @@ bool handleCollisions(std::vector<Enemy>& enemies, GameState& gs) {
     Uint32 now = SDL_GetTicks();
 
     for (auto& enemy : enemies) {
-        if (!enemy.active) continue;
-
+        if (!enemy.active || enemy.respawning) continue;
+        
         if (gs.playerX < enemy.x + ENEMY_SIZE &&
             gs.playerX + PLAYER_SIZE > enemy.x &&
             gs.playerY < enemy.y + ENEMY_SIZE &&
