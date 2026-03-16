@@ -42,6 +42,6 @@ struct Enemy {
 };
 
 void initEnemies(std::vector<Enemy>& enemies, int num, int screenW, int screenH);
-void updateEnemies(std::vector<Enemy>& enemies, const GameState& gs);
+void updateEnemies(std::vector<Enemy>& enemies, const GameState& gs, float deltaTime);
 void renderEnemies(const std::vector<Enemy>& enemies, SDL_Renderer* renderer, const GameState& gs);
 

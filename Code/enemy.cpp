@@ -61,14 +61,17 @@ static void applyDifficultyScaling(Enemy& e, const GameState& gs) {
     int score = gs.score;
     if (score < 50) {
         e.currentSpeed = BASE_SPEED;
+        e.currentDash = DASH_SPEED;
         e.dashEnabled = false;
     } else if (score < 100) {
         e.currentSpeed = BASE_SPEED + 1;
+        e.currentDash = DASH_SPEED;
         e.dashEnabled = true;
         e.dashType = DashType::FORWARD;
         e.dashCooldownRange = {DASH_COOLDOWN_MAX, DASH_COOLDOWN_MAX};
     } else if (score < 150) {
         e.currentSpeed = BASE_SPEED + 1;
+        e.currentDash = DASH_SPEED;
         e.dashEnabled = true;
         e.dashType = DashType::FORWARD;
         e.dashCooldownRange = {DASH_COOLDOWN_MAX - 500, DASH_COOLDOWN_MAX - 200};
@@ -97,12 +100,12 @@ static void tryStartDash(Enemy& e, const GameState& gs) {
     float dist = std::sqrt(dx*dx + dy*dy);
 
     if (e.dashType == DashType::FORWARD) {
-        e.dashVX = std::cos(e.angle) * DASH_SPEED;
-        e.dashVY = std::sin(e.angle) * DASH_SPEED;
+        e.dashVX = std::cos(e.angle) * e.currentDash;
+        e.dashVY = std::sin(e.angle) * e.currentDash;
     } else if (e.dashType == DashType::TARGET) {
         if (dist < 0.01f) return;
-        e.dashVX = (dx / dist) * DASH_SPEED;
-        e.dashVY = (dy / dist) * DASH_SPEED;
+        e.dashVX = (dx / dist) * e.currentDash;
+        e.dashVY = (dy / dist) * e.currentDash;
         e.angle = std::atan2(dy, dx);
     }
 
@@ -111,7 +114,7 @@ static void tryStartDash(Enemy& e, const GameState& gs) {
     e.dashCooldown = now + randomInt(e.dashCooldownRange.first, e.dashCooldownRange.second);
 }
 
-void updateEnemies(std::vector<Enemy>& enemies, const GameState& gs) {
+void updateEnemies(std::vector<Enemy>& enemies, const GameState& gs, float deltaTime) {
     Uint32 now = SDL_GetTicks();
 
     for (auto& e : enemies) {
@@ -135,13 +138,13 @@ void updateEnemies(std::vector<Enemy>& enemies, const GameState& gs) {
                     float dy = (gs.playerY + PLAYER_SIZE/2.0f) - (e.y + ENEMY_SIZE/2.0f);
                     float dist = std::sqrt(dx*dx + dy*dy);
                     if (dist > 0.01f) {
-                        e.dashVX = (dx / dist) * DASH_SPEED;
-                        e.dashVY = (dy / dist) * DASH_SPEED;
+                        e.dashVX = (dx / dist) * e.currentDash;
+                        e.dashVY = (dy / dist) * e.currentDash;
                         e.angle = std::atan2(dy, dx);
                     }
                 }
-                e.x += e.dashVX;
-                e.y += e.dashVY;
+                e.x += e.dashVX * deltaTime;
+                e.y += e.dashVY * deltaTime;
             } else {
                 e.dashing = false;
             }
@@ -151,8 +154,8 @@ void updateEnemies(std::vector<Enemy>& enemies, const GameState& gs) {
             float dist = std::sqrt(dx*dx + dy*dy);
 
             if (dist > 0.01f) {
-                e.x += (dx / dist) * e.currentSpeed;
-                e.y += (dy / dist) * e.currentSpeed;
+                e.x += (dx / dist) * e.currentSpeed * deltaTime;
+                e.y += (dy / dist) * e.currentSpeed * deltaTime;
                 e.angle = std::atan2(dy, dx);
             }
 
@@ -213,4 +216,3 @@ void renderEnemies(const std::vector<Enemy>& enemies, SDL_Renderer* r, const Gam
             filledPolygonRGBA(r, vx, vy, 3, 255,0,0,255);
     }
 }
-

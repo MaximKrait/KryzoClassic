@@ -25,36 +25,43 @@ void respawnPlayer(GameState& gs, const std::vector<Enemy>& enemies) {
             }
         }
         if (ok) {
+            gs.playerPosX = static_cast<float>(px);
+            gs.playerPosY = static_cast<float>(py);
             gs.playerX = px;
             gs.playerY = py;
             return;
         }
     }
 
-    gs.playerX = gs.screenW / 2;
-    gs.playerY = gs.screenH / 2;
+
+    gs.playerPosX = gs.screenW / 2.0f;
+    gs.playerPosY = gs.screenH / 2.0f;
+    gs.playerX = static_cast<int>(gs.playerPosX);
+    gs.playerY = static_cast<int>(gs.playerPosY);
 }
 
-void movePlayer(GameState& gs) {
+void movePlayer(GameState& gs, float deltaTime) {
     const Uint8* keystate = SDL_GetKeyboardState(nullptr);
 
     struct Dir { int key, dx, dy; };
     Dir dirs[] = {
-        { SDL_SCANCODE_W, 0, -PLAYER_SPEED },
-        { SDL_SCANCODE_S, 0,  PLAYER_SPEED },
-        { SDL_SCANCODE_A,-PLAYER_SPEED, 0 },
-        { SDL_SCANCODE_D, PLAYER_SPEED, 0 }
+        { SDL_SCANCODE_W, 0, -1 },
+        { SDL_SCANCODE_S, 0,  1 },
+        { SDL_SCANCODE_A,-1, 0 },
+        { SDL_SCANCODE_D, 1, 0 }
     };
 
     for (auto& d : dirs) {
         if (keystate[d.key]) {
-            gs.playerX += d.dx;
-            gs.playerY += d.dy;
+            gs.playerPosX += d.dx * PLAYER_SPEED * deltaTime;
+            gs.playerPosY += d.dy * PLAYER_SPEED * deltaTime;
         }
     }
 
-    gs.playerX = std::clamp(gs.playerX, 0, gs.screenW - PLAYER_SIZE);
-    gs.playerY = std::clamp(gs.playerY, 0, gs.screenH - PLAYER_SIZE);
+    gs.playerPosX = std::clamp(gs.playerPosX, 0.0f, float(gs.screenW - PLAYER_SIZE));
+    gs.playerPosY = std::clamp(gs.playerPosY, 0.0f, float(gs.screenH - PLAYER_SIZE));
+    gs.playerX = static_cast<int>(gs.playerPosX);
+    gs.playerY = static_cast<int>(gs.playerPosY);
 }
 
 bool handleCollisions(std::vector<Enemy>& enemies, GameState& gs) {
@@ -96,13 +103,13 @@ bool handleCollisions(std::vector<Enemy>& enemies, GameState& gs) {
             dx /= len;
             dy /= len;
 
-            gs.playerX += dx * 60;
-            gs.playerY += dy * 60;
+            gs.playerPosX += dx * 60.0f;
+            gs.playerPosY += dy * 60.0f;
 
-            if (gs.playerX < 0) gs.playerX = 0;
-            if (gs.playerY < 0) gs.playerY = 0;
-            if (gs.playerX > gs.screenW - PLAYER_SIZE) gs.playerX = gs.screenW - PLAYER_SIZE;
-            if (gs.playerY > gs.screenH - PLAYER_SIZE) gs.playerY = gs.screenH - PLAYER_SIZE;
+            gs.playerPosX = std::clamp(gs.playerPosX, 0.0f, float(gs.screenW - PLAYER_SIZE));
+            gs.playerPosY = std::clamp(gs.playerPosY, 0.0f, float(gs.screenH - PLAYER_SIZE));
+            gs.playerX = static_cast<int>(gs.playerPosX);
+            gs.playerY = static_cast<int>(gs.playerPosY);
 
             if (gs.hp <= 0) {
                 return true; // Game Over
@@ -118,4 +125,3 @@ bool handleCollisions(std::vector<Enemy>& enemies, GameState& gs) {
 
     return false;
 }
-

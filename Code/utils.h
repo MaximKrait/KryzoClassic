@@ -8,7 +8,6 @@ inline constexpr int WINDOW_WIDTH = 1024;
 inline constexpr int WINDOW_HEIGHT = 576;
 inline constexpr int PLAYER_SIZE = 20;
 inline constexpr int PLAYER_SPEED = 5;
-inline constexpr Uint32 FRAME_DELAY = 16;
 inline constexpr int ENEMY_SIZE = 20;
 inline constexpr int ENEMY_SPEED = 2;
 inline constexpr int NUM_ENEMIES = 5;
@@ -26,6 +25,8 @@ struct Bonus {
 struct GameState {
     int playerX = WINDOW_WIDTH / 2;
     int playerY = WINDOW_HEIGHT / 2;
+    float playerPosX = WINDOW_WIDTH / 2.0f;
+    float playerPosY = WINDOW_HEIGHT / 2.0f;
     int score = 0;
     int hp = 100;
     int maxHP = 100;
@@ -64,4 +65,3 @@ inline int randomInt(int min, int max) {
 void drawBonus(SDL_Renderer* renderer, const Bonus& b);
 void trySpawnHeal(GameState& gs);
 void checkHealPickup(GameState& gs);
-
