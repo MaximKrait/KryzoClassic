@@ -1,4 +1,4 @@
-![Logo](ForREADME/logoBig1.png)
+![Logo](ForREADME/KryzoClassicLogoBIG.png)
 
 A small C++ game where you have to dodge triangles. 
 
