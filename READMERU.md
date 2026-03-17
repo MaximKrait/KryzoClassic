@@ -1,4 +1,4 @@
-![Logo](ForREADME/logoBig1.png)
+![Logo](ForREADME/KryzoClassicLogoBIG.png)
 
 Небольшая игра на C++, в которой нужно уворачиваться от треугольников. 
 
