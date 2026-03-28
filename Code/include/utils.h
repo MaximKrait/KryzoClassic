@@ -62,6 +62,6 @@ inline int randomInt(int min, int max) {
     return min + std::rand() % (max - min + 1);
 }
 
-void drawBonus(SDL_Renderer* renderer, const Bonus& b);
+void drawHeal(SDL_Renderer* renderer, const Bonus& b);
 void trySpawnHeal(GameState& gs);
 void checkHealPickup(GameState& gs);

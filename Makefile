@@ -11,7 +11,7 @@ endif
 CXX = g++
 
 # ==== Common flags ====
-CXXFLAGS = -O2 -Wall -std=c++17
+CXXFLAGS = -O2 -Wall -std=c++20 -ICode/include
 
 # ==== SDL flags for each OS ====
 ifeq ($(UNAME_S), Linux)
@@ -36,27 +36,29 @@ else
 endif
 
 # ==== Project ====
-SRC = Code/main.cpp Code/pascal.cpp Code/enemy.cpp Code/graphic.cpp Code/anim.cpp Code/utils.cpp Code/display.cpp
-OBJ = $(SRC:.cpp=.o)
+SRC_DIR := Code/src
+INC_DIR := Code/include
 TARGET = Kryzo_Classic
-RELEASE_DIR := $(DOCS_DIR)/Kryzo_Classic
+RELEASE_DIR := $(DOCS_DIR)/$(TARGET)
+SRCS := $(shell find $(SRC_DIR) -name "*.cpp")
+OBJS := $(SRCS:.cpp=.o)
 
 # ==== Build object files ====
-all: $(OBJ)
+all: $(OBJS)
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJ)
+	rm -f $(OBJS) $(RELEASE_DIR)/$(TARGET)
 
 # ==== Install (real release) ====
-install: $(OBJ)
+install: $(OBJS)
 	@echo "Installing to $(RELEASE_DIR)..."
 	mkdir -p "$(RELEASE_DIR)"
 
 	# Build executable
-	$(CXX) $(OBJ) -o "$(RELEASE_DIR)/$(TARGET)" $(LDFLAGS)
+	$(CXX) $(OBJS) -o "$(RELEASE_DIR)/$(TARGET)" $(LDFLAGS)
 
 	# Copy assets
 	cp -r Assets "$(RELEASE_DIR)/"

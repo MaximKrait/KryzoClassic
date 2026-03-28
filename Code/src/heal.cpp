@@ -1,7 +1,8 @@
 #include "utils.h"
+#include "log.h"
 #include <SDL2/SDL.h>
 
-void drawBonus(SDL_Renderer* renderer, const Bonus& b) {
+void drawHeal(SDL_Renderer* renderer, const Bonus& b) {
     if (!b.active) return;
     SDL_Rect r{ b.x, b.y, b.size, b.size };
     SDL_SetRenderDrawColor(renderer, 0, 200, 100, 255);
@@ -12,7 +13,6 @@ void trySpawnHeal(GameState& gs) {
     Bonus& heal = gs.heal;
     if (heal.active) return;
     if (gs.hp >= 60) return;
-
     if (SDL_GetTicks() - gs.lastScoreUpdate < 500) return;
 
     if (randomInt(HEAL_SPAWN_CHANCE) == 50) {
@@ -27,7 +27,7 @@ void trySpawnHeal(GameState& gs) {
             heal.y = std::min(gs.screenH - heal.size, heal.y + PLAYER_SIZE);
         }
 
-        std::cout << "[DEBUG] Heal spawned at: " << heal.x << "," << heal.y << " (hp=" << gs.hp << ")\n";
+        LOG("Heal spawned at (" + std::to_string(heal.x) + ", " + std::to_string(heal.y) + ")");
     }
 }
 
@@ -42,7 +42,7 @@ void checkHealPickup(GameState& gs) {
         gs.hp += 20;
         if (gs.hp > gs.maxHP) gs.hp = gs.maxHP;
         heal.active = false;
-        std::cout << "[DEBUG] Heal picked. hp=" << gs.hp << "\n";
+
+        LOG("Heal picked up. HP now: " + std::to_string(gs.hp));
     }
 }
-

@@ -23,7 +23,8 @@ mkdir -p "$BUILD"
 echo "[2/7] Build binary"
 make clean
 make
-g++ Code/*.o -o "$BUILD/$BIN" -lSDL2 -lSDL2_ttf -lSDL2_gfx -lSDL2_image -lSDL2_mixer
+OBJ_DIR=Code/src
+g++ $OBJ_DIR/*.o -o "$BUILD/$BIN" -lSDL2 -lSDL2_ttf -lSDL2_gfx -lSDL2_image -lSDL2_mixer
 
 echo "[3/7] Create AppDir structure"
 mkdir -p "$APPDIR/usr/bin" "$APPDIR/usr/lib" "$APPDIR/usr/share/applications" "$APPDIR/usr/share/icons/hicolor/256x256/apps"

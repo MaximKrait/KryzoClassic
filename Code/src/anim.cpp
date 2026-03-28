@@ -37,4 +37,3 @@ bool getHPDrawColor(int hp, Uint32 hpCriticalStart, Uint32 currentTime, SDL_Colo
         return true;
     }
 }
-

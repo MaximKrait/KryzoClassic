@@ -1,43 +1,13 @@
 #include "pascal.h"
-#include <SDL2/SDL.h>
+#include "collision.h"
 #include "utils.h"
+#include "log.h"
+#include <SDL2/SDL.h>
 #include <algorithm>
 #include <cmath>
 
-static bool intersects(int ax, int ay, int as, int bx, int by, int bs) {
-    return ax < bx + bs &&
-           ax + as > bx &&
-           ay < by + bs &&
-           ay + as > by;
-}
-
-void respawnPlayer(GameState& gs, const std::vector<Enemy>& enemies) {
-    for (int i = 0; i < 50; i++) {
-        int px = randomInt(std::max(1, gs.screenW - PLAYER_SIZE));
-        int py = randomInt(std::max(1, gs.screenH - PLAYER_SIZE));
-
-        bool ok = true;
-        for (auto& e : enemies) {
-            if (!e.active) continue;
-            if (intersects(px, py, PLAYER_SIZE, (int)e.x, (int)e.y, ENEMY_SIZE)) {
-                ok = false;
-                break;
-            }
-        }
-        if (ok) {
-            gs.playerPosX = static_cast<float>(px);
-            gs.playerPosY = static_cast<float>(py);
-            gs.playerX = px;
-            gs.playerY = py;
-            return;
-        }
-    }
-
-
-    gs.playerPosX = gs.screenW / 2.0f;
-    gs.playerPosY = gs.screenH / 2.0f;
-    gs.playerX = static_cast<int>(gs.playerPosX);
-    gs.playerY = static_cast<int>(gs.playerPosY);
+void respawnPlayer(GameState&, const std::vector<Enemy>&) {
+    // respawn system (not used in current version)
 }
 
 void movePlayer(GameState& gs, float deltaTime) {
@@ -69,15 +39,24 @@ bool handleCollisions(std::vector<Enemy>& enemies, GameState& gs) {
 
     for (auto& enemy : enemies) {
         if (!enemy.active || enemy.respawning) continue;
-        
-        if (gs.playerX < enemy.x + ENEMY_SIZE &&
-            gs.playerX + PLAYER_SIZE > enemy.x &&
-            gs.playerY < enemy.y + ENEMY_SIZE &&
-            gs.playerY + PLAYER_SIZE > enemy.y) {
 
+        float eRad = ENEMY_SIZE / 1.2f;
+        float cx = gs.playerX + PLAYER_SIZE / 2.0f;
+        float cy = gs.playerY + PLAYER_SIZE / 2.0f;
+
+        float vx[3], vy[3];
+        for (int i = 0; i < 3; i++) {
+            float t = enemy.angle + i * (2 * M_PI / 3);
+            vx[i] = enemy.x + ENEMY_SIZE / 2.0f + std::cos(t) * eRad;
+            vy[i] = enemy.y + ENEMY_SIZE / 2.0f + std::sin(t) * eRad;
+        }
+
+        if (circleTriangleCollision(cx, cy, PLAYER_SIZE / 2.0f, vx[0], vy[0], vx[1], vy[1], vx[2], vy[2])) {
             int damage = randomInt(11) + 10;
             gs.hp -= damage;
             if (gs.hp < 0) gs.hp = 0;
+
+            LOG("Player hit by enemy at (" + std::to_string(enemy.x) + ", " + std::to_string(enemy.y) + ") for " + std::to_string(damage) + " damage. HP now: " + std::to_string(gs.hp));
 
             if (damage == 20) {
                 gs.criticalActive = true;
@@ -85,10 +64,12 @@ bool handleCollisions(std::vector<Enemy>& enemies, GameState& gs) {
                 gs.criticalDamage = damage;
                 gs.criticalX = gs.playerX;
                 gs.criticalY = gs.playerY - 30;
+                LOG("Critical hit! Damage: " + std::to_string(damage));
             }
 
             if (gs.hp <= 10 && gs.hpCriticalStart == 0) {
                 gs.hpCriticalStart = now;
+                LOG("HP critical threshold reached");
             } else if (gs.hp > 10) {
                 gs.hpCriticalStart = 0;
             }

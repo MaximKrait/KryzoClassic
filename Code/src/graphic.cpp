@@ -1,17 +1,26 @@
 #include "graphic.h"
 #include "anim.h"
+#include "log.h"
 #include <iostream>
 #include <SDL2/SDL2_gfxPrimitives.h>
 
 void renderText(SDL_Renderer* renderer, TTF_Font* font, const std::string& message, int x, int y, SDL_Color color) {
-    if (!font) { std::cerr << "Font not loaded\n"; return; }
+    if (!font) {
+        LOG("Font not loaded");
+        return;
+    }
     SDL_Surface* surface = TTF_RenderText_Solid(font, message.c_str(), color);
-    if (!surface) return;
+    if (!surface) {
+        LOG("TTF_RenderText_Solid failed for message: " + message);
+        return;
+    }
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
     if (texture) {
         SDL_Rect rect = { x, y, surface->w, surface->h };
         SDL_RenderCopy(renderer, texture, nullptr, &rect);
         SDL_DestroyTexture(texture);
+    } else {
+        LOG("SDL_CreateTextureFromSurface failed for message: " + message);
     }
     SDL_FreeSurface(surface);
 }
@@ -26,8 +35,16 @@ void renderTextCenter(SDL_Renderer* renderer, TTF_Font* font,
     int x = (screenWidth - w) / 2;
 
     SDL_Surface* surf = TTF_RenderText_Solid(font, text.c_str(), color);
-    if (!surf) return;
+    if (!surf) {
+        LOG("TTF_RenderText_Solid failed (center) for text: " + text);
+        return;
+    }
     SDL_Texture* tex = SDL_CreateTextureFromSurface(renderer, surf);
+    if (!tex) {
+        LOG("SDL_CreateTextureFromSurface failed (center) for text: " + text);
+        SDL_FreeSurface(surf);
+        return;
+    }
 
     SDL_Rect dst = { x, y, w, h };
     SDL_RenderCopy(renderer, tex, nullptr, &dst);
@@ -37,13 +54,14 @@ void renderTextCenter(SDL_Renderer* renderer, TTF_Font* font,
 }
 
 void showMenu(SDL_Renderer* renderer, TTF_Font* font, int screenWidth, int screenHeight) {
+    LOG("Menu opened");
     bool open = true;
     SDL_Event ev;
     SDL_Color white = {255, 255, 255, 255};
     SDL_Color gray = {180, 180, 180, 255};
 
     TTF_Font* smallFont = TTF_OpenFont("Assets/Fonts/VCR_OSD_MONO_1.001.ttf", 16);
-    if (!smallFont) std::cerr << "Small font load failed: " << TTF_GetError() << "\n";
+    if (!smallFont) LOG("Small font load failed: " + std::string(TTF_GetError()));
 
     SDL_Surface* logoSurface = SDL_LoadBMP("Assets/UI/logo.bmp");
     SDL_Texture* logoTex = nullptr;
@@ -51,31 +69,32 @@ void showMenu(SDL_Renderer* renderer, TTF_Font* font, int screenWidth, int scree
     if (logoSurface) {
         Uint32 colorkey = SDL_MapRGB(logoSurface->format, 255, 0, 255);
         SDL_SetColorKey(logoSurface, SDL_TRUE, colorkey);
-
         logoTex = SDL_CreateTextureFromSurface(renderer, logoSurface);
         SDL_FreeSurface(logoSurface);
+        if (!logoTex) LOG("SDL_CreateTextureFromSurface failed for logo");
+        else LOG("Logo loaded and texture created");
     } else {
-        std::cerr << "Logo load failed: " << SDL_GetError() << "\n";
+        LOG("Logo load failed: " + std::string(SDL_GetError()));
     }
 
-    SDL_Rect logoRect;
-    logoRect.w = 256;
-    logoRect.h = 92;
-    logoRect.x = screenWidth/2 - logoRect.w/2;
-    logoRect.y = screenHeight/2 - 100;
+    SDL_Rect logoRect{screenWidth/2 - 128, screenHeight/2 - 100, 256, 92};
 
     while (open) {
         while (SDL_PollEvent(&ev)) {
-            if (ev.type == SDL_QUIT) exit(0);
-            if (ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_RETURN)
+            if (ev.type == SDL_QUIT) {
+                LOG("Menu closed via SDL_QUIT");
+                exit(0);
+            }
+            if (ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_RETURN) {
+                LOG("Menu closed via ENTER");
                 open = false;
+            }
         }
 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
 
-        if (logoTex)
-            SDL_RenderCopy(renderer, logoTex, nullptr, &logoRect);
+        if (logoTex) SDL_RenderCopy(renderer, logoTex, nullptr, &logoRect);
 
         renderTextCenter(renderer, font, "Movement with WASD",
                          screenHeight/2 + 80, white, screenWidth);
@@ -83,19 +102,17 @@ void showMenu(SDL_Renderer* renderer, TTF_Font* font, int screenWidth, int scree
         renderTextCenter(renderer, font, "Press ENTER to start the game",
                          screenHeight/2 + 120, white, screenWidth);
 
-        if (smallFont){
+        if (smallFont) {
             renderTextCenter(renderer, smallFont, "Game by Maxim Krait", screenHeight - 50, gray, screenWidth);
             renderTextCenter(renderer, smallFont, "v1.2.0 (Dev)", screenHeight - 30, gray, screenWidth);
         }
-        
+
         SDL_RenderPresent(renderer);
         SDL_Delay(16);
     }
 
-    if (logoTex)
-        SDL_DestroyTexture(logoTex);
-    if (smallFont)
-        TTF_CloseFont(smallFont);
+    if (logoTex) SDL_DestroyTexture(logoTex);
+    if (smallFont) TTF_CloseFont(smallFont);
 }
 
 void drawScene(SDL_Renderer* renderer, TTF_Font* font, const GameState& gs, const std::vector<Enemy>& enemies) {
@@ -151,6 +168,8 @@ void drawScene(SDL_Renderer* renderer, TTF_Font* font, const GameState& gs, cons
 bool showGameOver(SDL_Renderer* renderer, TTF_Font* font,
                   int finalScore, int screenWidth, int screenHeight)
 {
+    LOG("Game over screen shown");
+
     SDL_Event ev;
     SDL_Color red   = {255, 0, 0, 255};
     SDL_Color white = {255, 255, 255, 255};
@@ -180,4 +199,3 @@ bool showGameOver(SDL_Renderer* renderer, TTF_Font* font,
         SDL_Delay(10);
     }
 }
-

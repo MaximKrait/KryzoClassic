@@ -9,4 +9,3 @@ void renderText(SDL_Renderer* renderer, TTF_Font* font, const std::string& messa
 void showMenu(SDL_Renderer* renderer, TTF_Font* font, int screenWidth, int screenHeight);
 void drawScene(SDL_Renderer* renderer, TTF_Font* font, const GameState& gs, const std::vector<Enemy>& enemies);
 bool showGameOver(SDL_Renderer* renderer, TTF_Font* font, int finalScore, int screenWidth, int screenHeight);
-
