@@ -104,7 +104,7 @@ void showMenu(SDL_Renderer* renderer, TTF_Font* font, int screenWidth, int scree
 
         if (smallFont) {
             renderTextCenter(renderer, smallFont, "Game by Maxim Krait", screenHeight - 50, gray, screenWidth);
-            renderTextCenter(renderer, smallFont, "v1.2.0 (Dev)", screenHeight - 30, gray, screenWidth);
+            renderTextCenter(renderer, smallFont, "v2.0.0-dev", screenHeight - 30, gray, screenWidth);
         }
 
         SDL_RenderPresent(renderer);
